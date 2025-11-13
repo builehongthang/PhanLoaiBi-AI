@@ -11,6 +11,17 @@
 </head>
 
 <body>
+  <img src="./image/logo.png" alt="Logo"
+     style="
+       position:fixed;
+       top:max(12px, env(safe-area-inset-top));
+       right:calc(12px + env(safe-area-inset-right));
+       z-index:100000;
+       width:clamp(80px, 10vw, 75px);
+       height:auto;
+       display:block;
+     ">
+
   <div class="modal" id="difficultyModal"
   style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
          background:rgba(0,0,0,.65); backdrop-filter: blur(3px); z-index:999;">
