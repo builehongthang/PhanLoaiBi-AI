@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phân loại bi màu</title>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+  <div class="modal" id="difficultyModal"
+  style="position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+         background:rgba(0,0,0,.65); backdrop-filter: blur(3px); z-index:999;">
+  <div class="modal-content"
+  style="width:min(100vw, 1200px); max-height:92vh; overflow:auto;
+         padding:clamp(12px,3vw,28px);
+         border-radius:28px; background:rgba(173,216,255,.88);
+         box-shadow:0 24px 96px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.35) inset;">
+    <h2 style="color:#fff; display:flex; justify-content:center; width:100%;
+      font-size:clamp(36px,6vw,72px); font-weight:900; line-height:1.08; letter-spacing:.5px;
+      text-shadow:0 3px 8px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.25), 0 0 24px rgba(255,255,255,.25);
+      margin:0 0 clamp(12px,3vw,24px) 0;">
+      Thi đấu phân loại bi cùng "AI"
+    </h2>
+    <div class="footer" style=" display:flex; justify-content:center;;color: rgb(248, 24, 24); font-size: 35px; margin-bottom: 30px; font-weight: bold;">"KÉO" VÀ "THẢ" BI MÀU VÀO ĐÚNG LỌ CÓ CÙNG MÀU</div>
+
+
+    <div style="display:flex; gap:clamp(12px,2vw,20px); justify-content:center; flex-wrap:wrap; align-items:stretch;">
+      <!-- EASY -->
+      <div class="difficulty-card easy"
+        style="border:3px solid #22C55E; border-radius:25px;
+               background:#fff; text-align:center;
+               flex:1 1 clamp(280px,30vw,380px);
+               padding:clamp(14px,2.2vw,24px); margin:0;
+               box-shadow:0 0 0 10px rgba(34,197,94,.14), 0 18px 40px rgba(16,185,129,.16);">
+        <span class="difficulty-title"
+          style="display:inline-block; background:#16A34A; color:#fff; font-weight:800;
+                 padding:6px 10px; border-radius:999px; font-size:14px;">DỄ</span>
+
+        <img src="https://thumb.ac-illust.com/ec/ec7de22b20b117c9902b8aade7b999f9_t.jpeg" alt="Dễ"
+             style="width:min(70%,300px); height:auto; margin:clamp(8px,1.8vw,16px) auto; display:block;">
+
+        <div>
+          <h3 style="color:#16A34A; font-size:clamp(18px,2.2vw,28px); margin:0 0 6px 0; font-weight:800;">
+            AI HỌC SINH
+          </h3>
+          <p style="color:#334155; font-size:clamp(14px,1.6vw,18px); margin:0 0 12px 0;">
+            Đã được huấn luyện trong 1 ngày
+          </p>
+        </div>
+        <button
+          style="background:#22C55E; color:#fff; font-size:clamp(14px,1.6vw,18px);
+         padding:.8em 1.4em; border:none; border-radius:999px; font-weight:800; cursor:pointer;"
+        onclick="selectDifficulty('easy')">
+          CHỌN
+        </button>
+      </div>
+
+      <!-- MEDIUM -->
+      <div class="difficulty-card medium"
+        style="border:3px solid #388df5; border-radius:25px;
+               background:#fff; text-align:center;
+               flex:1 1 clamp(280px,30vw,380px);
+               padding:clamp(14px,2.2vw,24px); margin:0;
+               box-shadow:0 0 0 10px rgba(59,130,246,.12), 0 18px 40px rgba(59,130,246,.16);">
+        <span class="difficulty-title"
+          style="display:inline-block; background:#3B82F6; color:#fff; font-weight:800;
+                 padding:6px 10px; border-radius:999px; font-size:14px;">TRUNG BÌNH</span>
+
+        <img src="https://thumb.ac-illust.com/0d/0dfdaa95ec8165782835268165b07539_t.jpeg" alt="Trung Bình"
+             style="width:min(70%,300px); height:auto; margin:clamp(8px,1.8vw,16px) auto; display:block;">
+
+        <div>
+          <h3 style="color:#1D4ED8; font-size:clamp(18px,2.2vw,28px); margin:0 0 6px 0; font-weight:800;">
+            AI ĐẠI HỌC
+          </h3>
+          <p style="color:#334155; font-size:clamp(14px,1.6vw,18px); margin:0 0 12px 0;">
+            Đã được huấn luyện trong 1 tuần
+          </p>
+        </div>
+        <button
+          style="background:#3B82F6; color:#fff; font-size:clamp(14px,1.6vw,18px);
+         padding:.8em 1.4em; border:none; border-radius:999px; font-weight:800; cursor:pointer;"
+  onclick="selectDifficulty('medium')">
+          CHỌN
+        </button>
+      </div>
+
+      <!-- HARD -->
+      <div class="difficulty-card hard"
+        style="border:3px solid #dc5fec; border-radius:25px;
+               background:#fff; text-align:center;
+               flex:1 1 clamp(280px,30vw,380px);
+               padding:clamp(14px,2.2vw,24px); margin:0;
+               box-shadow:0 0 0 10px rgba(239,68,68,.10), 0 18px 40px rgba(239,68,68,.16);">
+        <span class="difficulty-title"
+          style="display:inline-block; background:#be5cf7; color:#ffffff; font-weight:800;
+                 padding:6px 10px; border-radius:999px; font-size:14px;">KHÓ</span>
+
+        <img src="https://i.pinimg.com/564x/0a/d0/c2/0ad0c2dcf22c5257a8bd6385c37aa100.jpg" alt="Khó"
+             style="width:min(70%,300px); height:auto; margin:clamp(8px,1.8vw,16px) auto; display:block;">
+
+        <div>
+          <h3 style="color:#f2e9f3; font-size:clamp(18px,2.2vw,28px); margin:0 0 6px 0; font-weight:800;">
+            AI LÃO LÀNG
+          </h3>
+          <p style="color:#e055d5; font-size:clamp(14px,1.6vw,18px); margin:0 0 12px 0;">
+            Đã được huấn luyện trong 1 tháng
+          </p>
+        </div>
+        <button
+          style="background:#ce45f0; color:#fff; font-size:clamp(14px,1.6vw,18px);
+         padding:.8em 1.4em; border:none; border-radius:999px; font-weight:800; cursor:pointer;"
+  onclick="selectDifficulty('hard')">
+          CHỌN
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="wrap">
+
+      <div class="timer-container">
+        <span class="timer">⏱ <span id="timeLeft">30</span>s</span>
+      </div>
+    <section class="game" style="position:fixed; top:50%; left:50%;
+    transform:translate(-50%,-50%);             /* center tuyệt đối */
+    width:min(1350px,96vw); max-height:92svh;
+    border-radius:28px; overflow:hidden;">
+      <div class="side-panel" id="playerPanel">
+        <div>
+          <h2 style="color: white; font-size: 60px; box-shadow: 5px black; text-shadow:
+    0 3px 8px rgba(0,0,0,.35),
+    0 8px 24px rgba(0,0,0,.25),
+    0 0 24px rgba(255,255,255,.25);">NGƯỜI CHƠI <img
+              src="https://i.pinimg.com/736x/8e/d7/60/8ed76088e09e5c6a553f0cc97f076119.jpg" alt="Người chơi"
+              style="width:200px; height:200px; border-radius:50%;"></h2>
+        </div>
+        <div class="board" id="boardHuman">
+          <div class="bucket" data-color="red"><span>Đỏ</span>
+            <div class="count">0</div>
+          </div>
+          <div class="bucket" data-color="yellow"><span>Vàng</span>
+            <div class="count">0</div>
+          </div>
+          <div class="bucket" data-color="blue"><span>Xanh</span>
+            <div class="count">0</div>
+          </div>
+        </div>
+        <div class="marbles" id="humanMarbles" aria-live="polite"></div>
+        <div style="color:white; font-size: 20px; font-weight: 800;" class="info">Điểm: <span id="scoreHuman">0</span> | <span id="statusHuman">...</span></div>
+      </div>
+      <div class="side-panel" id="aiPanel">
+        <div>
+          <h2 style="font-size: 60px; box-shadow: 5px rgb(212, 180, 180); text-shadow:
+    0 3px 8px rgba(230, 223, 223, 0.35),
+    0 8px 24px rgba(12, 9, 9, 0.25),
+    0 0 24px rgba(255,255,255,.25);">AI</h2>
+        </div>
+        <div class="board" id="boardAI">
+          <div class="bucket" data-color="red"><span>Đỏ</span>
+            <div class="count">0</div>
+          </div>
+          <div class="bucket" data-color="yellow"><span>Vàng</span>
+            <div class="count">0</div>
+          </div>
+          <div class="bucket" data-color="blue"><span>Xanh</span>
+            <div class="count">0</div>
+          </div>
+        </div>
+        <div class="marbles" id="aiMarbles"></div>
+        <div style="color:white; font-size: 20px; font-weight: 800;" class="info">Điểm: <span id="scoreAI">0</span> | <span id="statusAI">...</span></div>
+      </div>
+    </section>
+
+  </div>
+  <div class="overlay" id="overlay">
+    <div class="popup">
+      <h2>Kết quả</h2>
+      <p id="resultText"></p>
+      <button style="font-size: 20px; color: whitesmoke" id="btnRestart">Chơi lại</button>
+    </div>
+  </div>
+  <div id="countdown" class="countdown-overlay">
+    <span id="countdown-number"></span>
+  </div>
+  <audio id="soundCorrect" src="https://orangefreesounds.com/wp-content/uploads/2023/02/Correct-ding-sound-effect.mp3"></audio>
+  <audio id="soundWrong" src="https://orangefreesounds.com/wp-content/uploads/2025/03/Wrong-buzzer-sound-effect.mp3"></audio>
+  <audio id="soundApplause"
+    src="https://www.orangefreesounds.com/wp-content/uploads/2016/10/Small-crowd-cheering-whistling-and-clapping.mp3"></audio>
+  <script>
+    let lastTouchTime = 0;
+    let aiStarted = false;
+    let currentMarble = null;
+    let touchTimeout = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let timerStarted = false; // Biến để kiểm tra xem bộ đếm thời gian đã bắt đầu chưa
+    let gameStartTime = null; // Thời gian bắt đầu game
+    let aiFinishTime = null; // Thời gian AI hoàn thành
+    let aiName = '';
+    let aiImg = '';
+    let aiColor = '';
+    let currentDifficulty = 'medium';
+    const humanMarblesContainer = document.getElementById('humanMarbles');
+    humanMarblesContainer.addEventListener('touchstart', e => {
+      e.preventDefault();
+      if (!gameActive) return;
+      const target = e.target.closest('.marble');
+      if (!target || target.parentElement.id !== 'humanMarbles') return;
+      document.querySelectorAll('.marble.selected').forEach(m => m.classList.remove('selected'));
+      target.classList.add('selected', 'dragging');
+      currentMarble = target;
+      statusHuman.textContent = `Chọn bi ${target.dataset.color}. Kéo hoặc chạm vào lọ để thả.`;
+      lastTouchTime = Date.now();
+      const rect = target.getBoundingClientRect();
+      touchStartX = e.touches[0].clientX - rect.left;
+      touchStartY = e.touches[0].clientY - rect.top;
+      target.style.position = 'fixed';
+      target.style.zIndex = '1000';
+      target.style.left = `${rect.left}px`;
+      target.style.top = `${rect.top}px`;
+      target.style.transform = 'translate(0px, 0px)';
+    }, { passive: false });
+    document.addEventListener('touchmove', e => {
+      if (!gameActive || !currentMarble) return;
+      e.preventDefault();
+      const touch = e.touches[0];
+      const dx = touch.clientX - touchStartX - currentMarble.getBoundingClientRect().left + (currentMarble.offsetWidth / 2);
+      const dy = touch.clientY - touchStartY - currentMarble.getBoundingClientRect().top + (currentMarble.offsetHeight / 2);
+      currentMarble.style.transform = `translate(${dx}px, ${dy}px)`;
+    }, { passive: false });
+    document.addEventListener('touchend', e => {
+      if (!gameActive || !currentMarble) return;
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+      const bucket = targetElement ? targetElement.closest('#boardHuman .bucket') : null;
+      if (!bucket) {
+        currentMarble.style.position = 'static';
+        currentMarble.style.transform = '';
+        currentMarble.style.zIndex = '';
+        currentMarble.classList.remove('dragging', 'selected');
+        currentMarble = null;
+        return;
+      }
+      handleDrop(bucket, currentMarble);
+      currentMarble.style.position = 'static';
+      currentMarble.style.transform = '';
+      currentMarble.style.zIndex = '';
+      currentMarble.classList.remove('dragging', 'selected');
+      currentMarble = null;
+    }, { passive: false });
+    const colors = ['red', 'yellow', 'blue'];
+    const humanMarbles = document.getElementById('humanMarbles');
+    const aiMarbles = document.getElementById('aiMarbles');
+    const scoreHumanEl = document.getElementById('scoreHuman');
+    const scoreAIEl = document.getElementById('scoreAI');
+    const statusHuman = document.getElementById('statusHuman');
+    const statusAI = document.getElementById('statusAI');
+    const timeLeftEl = document.getElementById('timeLeft');
+    const overlay = document.getElementById('overlay');
+    const resultText = document.getElementById('resultText');
+    const btnRestart = document.getElementById('btnRestart');
+    const soundCorrect = document.getElementById('soundCorrect');
+    const soundWrong = document.getElementById('soundWrong');
+    const soundApplause = document.getElementById('soundApplause');
+    let MARBLES_TOTAL = 6;
+    let AI_SPEED = 700;
+    let TIME_LIMIT = 30;
+    let scoreHuman = 0, scoreAI = 0;
+    let gameActive = false;
+    let mainTimer = null, aiTimer = null;
+    let remainingTime = TIME_LIMIT;
+    function uid() { return 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+    function updateBucketCounts(boardId) {
+      const buckets = document.querySelectorAll(`#${boardId} .bucket`);
+      buckets.forEach(b => {
+        const countEl = b.querySelector('.count');
+        const color = b.dataset.color;
+        const cnt = b.querySelectorAll(`.marble.${color}`).length;
+        countEl.textContent = cnt;
+      });
+    }
+    function clearBuckets(boardId) {
+      document.querySelectorAll(`#${boardId} .bucket`).forEach(b => {
+        b.querySelectorAll('.marble').forEach(m => m.remove());
+        const countEl = b.querySelector('.count');
+        if (countEl) countEl.textContent = 0;
+      });
+    }
+    function createMarble(container, color = null) {
+      const c = color || colors[Math.floor(Math.random() * colors.length)];
+      const m = document.createElement('div');
+      m.className = 'marble ' + c;
+      const id = uid();
+      m.dataset.color = c;
+      m.dataset.id = id;
+      m.setAttribute('role', 'button');
+      m.setAttribute('aria-label', `Bi ${c}`);
+      if (container === humanMarbles) {
+        m.draggable = true;
+        m.addEventListener('dragstart', e => {
+          if (!gameActive) { e.preventDefault(); return; }
+          e.dataTransfer.setData('text/plain', id);
+          e.dataTransfer.setData('color', c);
+          m.classList.add('dragging');
+        });
+        m.addEventListener('dragend', () => {
+          m.classList.remove('dragging');
+          m.style.position = 'static';
+        });
+      } else {
+        m.draggable = false;
+      }
+      container.appendChild(m);
+      return m;
+    }
+    function animateFly(m, target) {
+      try {
+        const rect = m.getBoundingClientRect();
+        const clone = m.cloneNode(true);
+        clone.classList.add('flying');
+        document.body.appendChild(clone);
+        clone.style.left = rect.left + 'px';
+        clone.style.top = rect.top + 'px';
+        clone.style.width = rect.width + 'px';
+        clone.style.height = rect.height + 'px';
+        clone.style.transformOrigin = 'center';
+        requestAnimationFrame(() => {
+          const t = target.getBoundingClientRect();
+          const dx = t.left + t.width / 2 - rect.left;
+          const dy = t.top + t.height / 2 - rect.top;
+          clone.style.transform = `translate(${dx}px, ${dy}px) scale(0.35)`;
+          clone.style.opacity = '0';
+        });
+        setTimeout(() => clone.remove(), 600);
+      } catch (e) { /* ignore animation errors */ }
+    }
+    function handleDrop(bucket, el) {
+      const expected = bucket.dataset.color;
+      animateFly(el, bucket);
+      // Bắt đầu bộ đếm thời gian khi người chơi thả viên bi đầu tiên
+      if (!timerStarted) {
+        timerStarted = true;
+        gameStartTime = Date.now(); // Ghi lại thời gian bắt đầu
+        startTimer(TIME_LIMIT);
+      }
+      setTimeout(() => {
+        if (expected === el.dataset.color) {
+          bucket.appendChild(el);
+          el.style.position = 'static';
+          el.style.transform = 'scale(0.7)';
+          el.style.margin = '2px';
+          scoreHuman++;
+          scoreHumanEl.textContent = scoreHuman;
+          statusHuman.textContent = '✅ Đúng!';
+          soundCorrect && soundCorrect.play().catch(() => { });
+          updateBucketCounts('boardHuman');
+          if (scoreHuman >= MARBLES_TOTAL) endGameEarly('player');
+        } else {
+          statusHuman.textContent = '❌ Sai!';
+          soundWrong && soundWrong.play().catch(() => { });
+          humanMarbles.appendChild(el);
+          updateBucketCounts('boardHuman');
+        }
+        el.classList.remove('selected');
+        if (!aiStarted) {
+          aiStarted = true;
+          runAI();
+        }
+      }, 220);
+    }
+    function setupDropHandlers() {
+      document.querySelectorAll('#boardHuman .bucket').forEach((bucket, i) => {
+        const newBucket = bucket.cloneNode(true);
+        bucket.parentNode.replaceChild(newBucket, bucket);
+      });
+      document.querySelectorAll('#boardHuman .bucket').forEach(bucket => {
+        bucket.addEventListener('dragover', e => {
+          if (gameActive) {
+            e.preventDefault();
+            bucket.classList.add('highlight');
+          }
+        });
+        bucket.addEventListener('dragleave', () => bucket.classList.remove('highlight'));
+        bucket.addEventListener('drop', e => {
+          if (!gameActive) return;
+          e.preventDefault();
+          bucket.classList.remove('highlight');
+          let id = e.dataTransfer.getData('text/plain');
+          let el = document.querySelector(`.marble[data-id="${id}"]`) || document.querySelector('.marble.selected');
+          if (!el) return;
+          handleDrop(bucket, el);
+        });
+      });
+    }
+    function runAI() {
+      clearBuckets('boardAI');
+      const marbles = [...aiMarbles.querySelectorAll('.marble')];
+      scoreAI = 0;
+      scoreAIEl.textContent = scoreAI;
+      let idx = 0;
+      statusAI.textContent = 'AI đang phân loại...';
+      if (aiTimer) {
+        clearInterval(aiTimer);
+        aiTimer = null;
+      }
+      aiTimer = setInterval(() => {
+        if (!gameActive || idx >= marbles.length) {
+          if (idx >= marbles.length && !aiFinishTime) {
+            aiFinishTime = Date.now(); // Ghi lại thời gian AI hoàn thành
+            statusAI.textContent = 'AI xong';
+          }
+          clearInterval(aiTimer);
+          aiTimer = null;
+          return;
+        }
+        const m = marbles[idx++];
+        const c = m.dataset.color;
+        const bucket = document.querySelector(`#boardAI .bucket[data-color="${c}"]`);
+        if (bucket) {
+          animateFly(m, bucket);
+          setTimeout(() => {
+            bucket.appendChild(m);
+            m.style.position = 'static';
+            m.style.transform = 'scale(0.7)';
+            m.style.margin = '2px';
+            scoreAI++;
+            scoreAIEl.textContent = scoreAI;
+            updateBucketCounts('boardAI');
+          }, 260);
+        } else {
+          scoreAI++;
+          scoreAIEl.textContent = scoreAI;
+        }
+      }, AI_SPEED);
+    }
+    function startTimer(t = 30) {
+      remainingTime = t;
+      timeLeftEl.textContent = remainingTime;
+      if (mainTimer) clearInterval(mainTimer);
+      mainTimer = setInterval(() => {
+        remainingTime--;
+        timeLeftEl.textContent = remainingTime;
+        if (remainingTime <= 0) {
+          clearInterval(mainTimer);
+          mainTimer = null;
+          if (aiTimer) {
+            clearInterval(aiTimer);
+            aiTimer = null;
+          }
+          gameActive = false;
+          statusHuman.textContent = '⏹ Hết giờ!';
+          statusAI.textContent = '⏹ Hết giờ!';
+          showResult();
+        }
+      }, 1000);
+    }
+    function endGameEarly(winner) {
+      if (mainTimer) {
+        clearInterval(mainTimer);
+        mainTimer = null;
+      }
+      if (winner === 'player') {
+        statusHuman.textContent = '🎉 Hoàn thành!';
+        gameActive = false;
+        showResult();
+      }
+      // Không dừng game khi AI hoàn thành, để người chơi tiếp tục
+    }
+    function showResult() {
+      overlay.style.display = 'flex';
+      const playerFinishTime = gameActive ? (Date.now() - gameStartTime) : (TIME_LIMIT * 1000 - remainingTime * 1000); // Thời gian người chơi hoàn thành
+      const aiTime = aiFinishTime ? (aiFinishTime - gameStartTime) : Infinity; // Nếu AI chưa hoàn thành, thời gian là Infinity
+      let msg = `Bạn: ${Math.floor(playerFinishTime / 1000)} giây | AI: ${aiFinishTime ? Math.floor(aiTime / 1000) + ' giây' : 'Chưa hoàn thành'}<br/>`;
+      let isWin = false;
+      if (scoreHuman >= MARBLES_TOTAL && (!aiFinishTime || playerFinishTime < aiTime)) {
+        msg += "🎉 Bạn thắng!";
+        isWin = true;
+      }
+      else if (aiFinishTime && aiTime < playerFinishTime) msg += "🤖 AI thắng!";
+      else if (playerFinishTime >= TIME_LIMIT * 1000 && !aiFinishTime) msg += "⚖️ Hòa!";
+      else if (!aiFinishTime) {
+        msg += "🎉 Bạn thắng! (AI chưa hoàn thành)";
+        isWin = true;
+      }
+      else msg += "⚖️ Hòa!";
+      resultText.innerHTML = msg;
+      if (isWin) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+        soundApplause && soundApplause.play().catch(() => { });
+      }
+    }
+    function restart() {
+      overlay.style.display = 'none';
+      if (mainTimer) {
+        clearInterval(mainTimer);
+        mainTimer = null;
+      }
+      if (aiTimer) {
+        clearInterval(aiTimer);
+        aiTimer = null;
+      }
+      timerStarted = false; // Reset trạng thái bộ đếm thời gian
+      gameStartTime = null; // Reset thời gian bắt đầu
+      aiFinishTime = null; // Reset thời gian AI hoàn thành
+      document.getElementById("difficultyModal").style.display = "flex";
+    }
+    btnRestart.addEventListener('click', restart);
+    function startCountdown() {
+      const countdownEl = document.getElementById('countdown');
+      const numberEl = document.getElementById('countdown-number');
+      countdownEl.style.display = 'flex';
+      let count = 3;
+      numberEl.textContent = count;
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          numberEl.style.animation = 'none';
+          numberEl.offsetHeight; // Trigger reflow
+          numberEl.style.animation = 'countdownAnim 1s ease-in-out';
+          numberEl.textContent = count;
+        } else if (count === 0) {
+          numberEl.style.animation = 'none';
+          numberEl.offsetHeight; // Trigger reflow
+          numberEl.style.animation = 'countdownAnim 1s ease-in-out';
+          numberEl.textContent = 'Bắt Đầu';
+          setTimeout(() => {
+            clearInterval(interval);
+            countdownEl.style.display = 'none';
+            startGame();
+          }, 1000);
+        }
+      }, 1000);
+    }
+    function startGame() {
+      aiStarted = false;
+      timerStarted = false; // Reset trạng thái bộ đếm thời gian
+      statusAI.textContent = "🤖 Đang chờ bạn...";
+      if (gameActive) return;
+      const diff = currentDifficulty;
+      if (diff === 'easy') {
+        MARBLES_TOTAL = 5;
+        AI_SPEED = 1200;
+        TIME_LIMIT = 30;
+      } else if (diff === 'medium') {
+        MARBLES_TOTAL = 6;
+        AI_SPEED = 700;
+        TIME_LIMIT = 30;
+      } else {
+        MARBLES_TOTAL = 7;
+        AI_SPEED = 600;
+        TIME_LIMIT = 30;
+      }
+      // Cập nhật tiêu đề AI với tên, ảnh và màu
+      const aiHeader = document.querySelector('#aiPanel h2');
+      aiHeader.innerHTML = `AI ${aiName} <img src="${aiImg}" alt="${aiName}" style="width:200px; height:200px; border-radius:50%;">`;
+      aiHeader.style.color = aiColor;
+      scoreHuman = 0;
+      scoreAI = 0;
+      scoreHumanEl.textContent = '0';
+      scoreAIEl.textContent = '0';
+      statusHuman.textContent = 'Bắt đầu';
+      statusAI.textContent = 'Chuẩn bị';
+      humanMarbles.innerHTML = '';
+      aiMarbles.innerHTML = '';
+      clearBuckets('boardHuman');
+      clearBuckets('boardAI');
+      gameActive = true;
+      const gameColors = [];
+      for (let i = 0; i < MARBLES_TOTAL; i++) {
+        gameColors.push(colors[Math.floor(Math.random() * colors.length)]);
+      }
+      for (let i = 0; i < MARBLES_TOTAL; i++) {
+        createMarble(humanMarbles, gameColors[i]);
+        createMarble(aiMarbles, gameColors[i]);
+      }
+      updateBucketCounts('boardHuman');
+      updateBucketCounts('boardAI');
+      setupDropHandlers();
+      timeLeftEl.textContent = TIME_LIMIT; // Hiển thị thời gian ban đầu nhưng chưa bắt đầu đếm ngược
+    }
+    function selectDifficulty(level) {
+      currentDifficulty = level;
+      if (level === "easy") {
+        aiName = 'HỌC SINH';
+        aiImg = 'https://thumb.ac-illust.com/ec/ec7de22b20b117c9902b8aade7b999f9_t.jpeg';
+        aiColor = 'green';
+      } else if (level === "medium") {
+        aiName = 'ĐẠI HỌC';
+        aiImg = 'https://thumb.ac-illust.com/0d/0dfdaa95ec8165782835268165b07539_t.jpeg';
+        aiColor = 'blue';
+      } else {
+        aiName = 'LÃO LÀNG';
+        aiImg = 'https://i.pinimg.com/564x/0a/d0/c2/0ad0c2dcf22c5257a8bd6385c37aa100.jpg';
+        aiColor = '#D946EF';
+      }
+      document.getElementById("difficultyModal").style.display = "none";
+      startCountdown();
+    }
+    (function initPreview() {
+      humanMarbles.innerHTML = '';
+      aiMarbles.innerHTML = '';
+      const previewColors = [];
+      for (let i = 0; i < 4; i++) {
+        previewColors.push(colors[Math.floor(Math.random() * colors.length)]);
+      }
+      for (let i = 0; i < 4; i++) {
+        createMarble(humanMarbles, previewColors[i]);
+        createMarble(aiMarbles, previewColors[i]);
+      }
+      updateBucketCounts('boardHuman');
+      updateBucketCounts('boardAI');
+      setupDropHandlers();
+      // Set default AI header for preview
+      const aiHeader = document.querySelector('#aiPanel h2');
+      aiHeader.innerHTML = `AI ĐẠI HỌC <img src="https://thumb.ac-illust.com/0d/0dfdaa95ec8165782835268165b07539_t.jpeg" alt="ĐẠI HỌC" style="width:200px; height:200px; border-radius:50%;">`;
+      aiHeader.style.color = 'blue';
+    })();
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.marble.selected').forEach(x => x.classList.remove('selected'));
+        if (currentMarble) {
+          currentMarble.style.position = 'static';
+          currentMarble.style.transform = '';
+          currentMarble.classList.remove('dragging');
+          currentMarble = null;
+        }
+      }
+    });
+    overlay.addEventListener('click', e => {
+      if (e.target === overlay) { /* do nothing */ }
+    });
+  </script>
+</body>
+
+</html>
